@@ -1,2 +1,2 @@
-# nestjs-flub
-500️⃣️⃣️⃣ Pretty Error Stack Viewer for NestJS Framework
+# Nest-Flub
+Pretty Error 😫 Stack Viewer for [Nestjs Framework](https://nestjs.com/) 🛠️
