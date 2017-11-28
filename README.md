@@ -44,7 +44,11 @@ export class CatsController {
 theme: string; // for themes ['dark', 'light']
 quote: boolean; // for displaying  very good quotes
  ```
+ example
  
+ ```typescript
+ @UseFilters(new FlubErrorHandler({ theme: 'dark', quote:true }))
+ ```
  #### Theming
  
  copy `/src/themes/error.default.mustache` and play
