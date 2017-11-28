@@ -1,3 +1,4 @@
+src
 *.ts
 *.spec.ts
 !*.d.ts
