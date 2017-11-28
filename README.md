@@ -22,9 +22,17 @@ Pretty ErrorHandler 😫, Stack Viewer for [Nestjs Framework](https://nestjs.com
 ### Light Theme
 ![light](https://files.gitter.im/nestjs/nestjs/z6X6/error-light.png)
 
+## Install
+
+```bash
+npm install nestjs-flub --save
+```
+
 ## Simple Usage
 Just add this filter as you used to add any filters
 ```typescript
+import { FlubErrorHandler } from 'nestjs-flub';
+@Controller('cats')
 @UseFilters(new FlubErrorHandler())
 export class CatsController { 
 
@@ -35,8 +43,6 @@ export class CatsController {
 }
 
 ```
-> import `FlubErrorHandler` from packages folder
-
 
 ## Configuration 
  **FlubErrorHandler** accepts an object as an options to configure the Error Handler </br>
