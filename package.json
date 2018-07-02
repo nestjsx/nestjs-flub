@@ -52,7 +52,7 @@
     "rxjs": "^5.5.2",
     "standard-version": "^4.2.0",
     "supertest": "^3.0.0",
-    "ts-node": "^6.0.0",
+    "ts-node": "^7.0.0",
     "tslint": "^5.8.0",
     "typescript": "^2.6.1"
   },
