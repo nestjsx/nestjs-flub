@@ -34,7 +34,7 @@
     "@nestjs/core": "^4.4.0"
   },
   "devDependencies": {
-    "@nestjs/common": "^4.4.0",
+    "@nestjs/common": "^5.1.0",
     "@nestjs/core": "^4.4.0",
     "@nestjs/microservices": "^4.4.1",
     "@nestjs/websockets": "^4.4.1",
