@@ -12,11 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("@nestjs/common");
 const error_handler_1 = require("./error-handler");
 let FlubErrorHandler = class FlubErrorHandler {
-    constructor(options) {
+    constructor(options = { theme: 'dark', quote: false }) {
         this.options = options;
     }
-    catch(exception, response) {
+    catch(exception, host) {
         new error_handler_1.ErrorHandler(exception, this.options).toHTML().then((data) => {
+            const ctx = host.switchToHttp();
+            const response = ctx.getResponse();
             response.status(500).send(data);
         }).catch((e) => {
             console.log(e);

@@ -33,14 +33,13 @@ beforeAll(async () => {
 
 describe('FlubErrorHandler', () => {
   it('No Error', async () => {
-    console.log('server', flubModule.get(TestController).noError());
     return request(app.getHttpServer())
       .get('test/no')
       .expect(200, {success: true})
-      .expect('Content-Type', /json/);
+      .expect('Content-Type', /html/);
   });
 });
 
 afterAll(async () => {
-  await app.close();
+  //await app.close();
 });

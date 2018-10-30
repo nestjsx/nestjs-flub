@@ -28,7 +28,7 @@ export declare class ErrorHandler {
      *
      * @return {String}
      */
-    private getDisplayClasses(frame, index);
+    private getDisplayClasses;
     /**
      * Compiles the view using HTML
      *
@@ -37,5 +37,5 @@ export declare class ErrorHandler {
      *
      * @return {String}
      */
-    private complieView(view, data);
+    private complieView;
 }

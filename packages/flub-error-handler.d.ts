@@ -1,6 +1,7 @@
-import { ExceptionFilter } from '@nestjs/common';
+import { ExceptionFilter, ArgumentsHost } from '@nestjs/common';
+import { IOptions } from './interfaces/options.interface';
 export declare class FlubErrorHandler implements ExceptionFilter {
     private options;
-    constructor(options?: any);
-    catch(exception: Error, response: any): void;
+    constructor(options?: IOptions);
+    catch(exception: Error, host: ArgumentsHost): void;
 }

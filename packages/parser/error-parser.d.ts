@@ -21,5 +21,5 @@ export declare class ErrorParser {
      * @return {Promise<Object>}
      */
     parse(): Promise<object>;
-    private randomQuote();
+    private randomQuote;
 }
