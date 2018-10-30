@@ -4,7 +4,7 @@ import { IOptions } from './interfaces/options.interface';
 @Catch(Error)
 export class FlubErrorHandler implements ExceptionFilter {
     private options: IOptions;
-    constructor(options?: any) {
+    constructor(options: IOptions = {theme: 'dark', quote: false}) {
         this.options = options;
     }
 
