@@ -1,2 +1,2 @@
-const FlubErrorHandler = require('./packages');
+const FlubErrorHandler = require('./dist');
 module.exports = FlubErrorHandler;

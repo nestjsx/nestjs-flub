@@ -5,7 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "release": "standard-version",
-    "build": "tsc && cp src/themes/* packages/themes/",
+    "build": "tsc && cp src/themes/* dist/themes/",
     "test": "jest",
     "coverage": "jest --coverage",
     "coveralls": "yarn run coverage --coverageReporters=text-lcov | coveralls"

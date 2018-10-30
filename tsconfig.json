@@ -3,7 +3,7 @@
         "declaration": true,
         "module": "commonjs",
         "moduleResolution": "node",
-        "outDir": "packages",
+        "outDir": "dist",
         "preserveConstEnums": true,
         "rootDir": "./src",
         "baseUrl": ".",
