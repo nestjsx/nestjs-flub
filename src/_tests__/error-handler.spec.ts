@@ -1,4 +1,4 @@
-import {ErrorHandler} from './../error-handler';
+import { ErrorHandler } from './../error-handler';
 
 describe('ErrorHandler', () => {
   it('Should instance', () => {
@@ -6,6 +6,12 @@ describe('ErrorHandler', () => {
       theme: 'dark',
       quote: false,
     });
+
+    expect(errorHandler).toBeInstanceOf(ErrorHandler);
+  });
+
+  it('Should instance without options', () => {
+    const errorHandler = new ErrorHandler(new Error('hello I am an error'));
 
     expect(errorHandler).toBeInstanceOf(ErrorHandler);
   });

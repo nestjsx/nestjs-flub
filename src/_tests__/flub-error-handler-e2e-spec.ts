@@ -1,5 +1,5 @@
-import {Test, TestingModule} from '@nestjs/testing';
-import {Controller, Get, UseFilters, INestApplication} from '@nestjs/common';
+import { Test, TestingModule } from '@nestjs/testing';
+import { Controller, Get, UseFilters, INestApplication } from '@nestjs/common';
 import { FlubErrorHandler } from './../flub-error-handler';
 import * as request from 'supertest';
 
@@ -16,15 +16,13 @@ class TestController {
 
   @Get('no')
   noError() {
-    return {success: true};
+    return { success: true };
   }
 }
 
 beforeAll(async () => {
   flubModule = await Test.createTestingModule({
-    controllers: [
-      TestController,
-    ],
+    controllers: [TestController],
   }).compile();
 
   app = flubModule.createNestApplication();
@@ -34,12 +32,12 @@ beforeAll(async () => {
 describe('FlubErrorHandler', () => {
   it('No Error', async () => {
     return request(app.getHttpServer())
-      .get('test/no')
-      .expect(200, {success: true})
+      .get('')
+      .expect(200, { success: true })
       .expect('Content-Type', /html/);
   });
 });
 
 afterAll(async () => {
-  //await app.close();
+  await app.close();
 });

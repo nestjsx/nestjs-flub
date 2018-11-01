@@ -1,4 +1,2 @@
-src
-*.ts
-*.spec.ts
-!*.d.ts
+node_modules/
+src/

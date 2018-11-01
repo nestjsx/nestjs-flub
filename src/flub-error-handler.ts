@@ -1,21 +1,27 @@
 import { Catch, ExceptionFilter, ArgumentsHost } from '@nestjs/common';
 import { ErrorHandler } from './error-handler';
-import { IOptions } from './interfaces/options.interface';
+import { FlubOptions } from './interfaces';
+import { Logger } from '@nestjs/common';
+
 @Catch(Error)
 export class FlubErrorHandler implements ExceptionFilter {
-    private options: IOptions;
-    constructor(options: IOptions = {theme: 'dark', quote: false}) {
-        this.options = options;
-    }
+  private options: FlubOptions;
 
-    catch(exception: Error, host: ArgumentsHost) {
-        new ErrorHandler(exception, this.options).toHTML().then((data) => {
-            const ctx = host.switchToHttp();
-            const response = ctx.getResponse();
+  constructor(options: FlubOptions = { theme: 'dark', quote: false }) {
+    this.options = options;
+  }
 
-            response.status(500).send(data);
-        }).catch((e) => {
-            console.log(e);
-        });
-    }
+  catch(exception: Error, host: ArgumentsHost) {
+    new ErrorHandler(exception, this.options)
+      .toHTML()
+      .then(data => {
+        const ctx = host.switchToHttp();
+        const response = ctx.getResponse();
+
+        response.status(500).send(data);
+      })
+      .catch(e => {
+        Logger.error(e.message, e.context);
+      });
+  }
 }
