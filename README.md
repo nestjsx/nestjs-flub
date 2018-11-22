@@ -48,7 +48,7 @@ export class CatsController {
  **FlubErrorHandler** accepts an object as an options to configure the Error Handler </br>
  for now it only have to Options
  ```typescript
-theme: string; // for themes ['dark', 'light']
+theme: string; // for themes ['dark', 'light', 'default']
 quote: boolean; // for displaying  very good quotes
  ```
  example
@@ -68,3 +68,15 @@ quote: boolean; // for displaying  very good quotes
 
 you are welcome with this project for contributing,
 If you have new themes just make a new PR with and simple image for the theme
+
+## Global filters 
+
+Use flub error handler for all controllers 
+
+```typescript 
+async function bootstrap() {
+  const app = await NestFactory.create(ApplicationModule);
+  app.useGlobalFilters(new FlubErrorHandler());
+  await app.listen(3000);
+}
+bootstrap();

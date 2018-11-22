@@ -1,8 +1,8 @@
-export interface IFrame {
-    classes: string;
-    column: any;
-    context: any;
-    file: any;
-    line: any;
-    method: any;
+export interface FrameInterface {
+  classes: string;
+  column: any;
+  context: any;
+  file: any;
+  line: any;
+  method: any;
 }

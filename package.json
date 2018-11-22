@@ -5,8 +5,13 @@
   "main": "src/index.ts",
   "scripts": {
     "release": "standard-version",
-    "build": "tsc && cp src/themes/* packages/themes/",
-    "test": "nyc --require ts-node/register mocha --require source-map-support/register src/**/*.spec.ts --reporter spec"
+    "clean": "rm -rf dist",
+    "build": "yarn run clean && tsc -p . && mkdir dist/themes && cp src/themes/* dist/themes/",
+    "test": "jest",
+    "coverage": "jest --coverage",
+    "coveralls": "yarn run coverage --coverageReporters=text-lcov | coveralls",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "lint": "tslint -p tsconfig.json -c tslint.json"
   },
   "repository": {
     "type": "git",
@@ -17,7 +22,7 @@
     "error-reporting",
     "whoops",
     "nestjs",
-    "middlewears"
+    "middlewares"
   ],
   "author": "Shady Khalifa <shekohex@gmail.com>",
   "license": "MIT",
@@ -25,62 +30,43 @@
     "url": "https://github.com/shekohex/nestjs-flub/issues"
   },
   "homepage": "https://github.com/shekohex/nestjs-flub#readme",
+  "devDependencies": {
+    "@nestjs/common": "^5.4.0",
+    "@nestjs/core": "^5.4.0",
+    "@nestjs/testing": "^5.4.0",
+    "@types/jest": "^23.3.9",
+    "@types/node": "^10.12.2",
+    "@types/supertest": "^2.0.6",
+    "coveralls": "^3.0.2",
+    "jest": "^23.6.0",
+    "prettier": "^1.14.3",
+    "reflect-metadata": "^0.1.12",
+    "rxjs": "^6.3.3",
+    "supertest": "^3.1.0",
+    "ts-jest": "^23.10.4",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6"
+  },
   "dependencies": {
-    "mustache": "^2.3.0",
-    "stack-trace": "~0.0.10"
+    "mustache": "^3.0.0",
+    "stack-trace": "^0.0.10"
   },
   "peerDependencies": {
-    "@nestjs/common": "^4.4.0",
-    "@nestjs/core": "^4.4.0"
+    "@nestjs/common": "^5.4.0",
+    "@nestjs/core": "^5.4.0"
   },
-  "devDependencies": {
-    "@nestjs/common": "^4.4.0",
-    "@nestjs/core": "^5.0.0",
-    "@nestjs/microservices": "^4.4.1",
-    "@nestjs/websockets": "^5.0.0",
-    "@types/chai": "^4.0.5",
-    "@types/mocha": "^5.0.0",
-    "@types/node": "^10.0.3",
-    "chai": "^4.1.2",
-    "source-map-support": "^0.5.0",
-    "coveralls": "^3.0.0",
-    "import-sort-style-module": "^5.0.0",
-    "lerna": "^2.5.1",
-    "mocha": "^5.0.0",
-    "nyc": "^12.0.1",
-    "reflect-metadata": "^0.1.10",
-    "rxjs": "^5.5.2",
-    "standard-version": "^4.2.0",
-    "supertest": "^3.0.0",
-    "ts-node": "^7.0.0",
-    "tslint": "^5.8.0",
-    "typescript": "^2.6.1"
-  },
-  "importSort": {
-    ".ts, .tsx": {
-      "parser": "typescript",
-      "style": "module"
-    }
-  },
-  "nyc": {
-    "include": [
-      "src/**/*.ts"
+  "jest": {
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
     ],
-    "exclude": [
-      "node_modules/",
-      "src/**/*.spec.ts"
-    ],
-    "extension": [
-      ".ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ],
-    "reporter": [
-      "text-summary",
-      "html"
-    ],
-    "sourceMap": true,
-    "instrument": true
+    "rootDir": "src",
+    "testRegex": ".spec.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "./coverage"
   }
 }
