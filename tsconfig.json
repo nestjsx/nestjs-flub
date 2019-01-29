@@ -15,7 +15,7 @@
     "rootDir": "./src",
     "baseUrl": "./",
     "outDir": "./dist",
-    "lib": ["es2017"]
+    "lib": ["es2017", "dom"]
   },
   "include": [
     "*.ts",
@@ -25,7 +25,6 @@
     "./index.ts",
     "./index.d.ts",
     "node_modules",
-    "./**/*.spec.ts",
-    "examples"
+    "./**/*.spec.ts"
   ]
 }
