@@ -9,7 +9,7 @@
 <h1 align="center">Nestjs Flub</h1>
 
 Pretty ErrorHandler 😫, Stack Viewer for [Nestjs Framework](https://nestjs.com/) 🛠️
-> it's just a simple `Filter` for Catching the Errorrs
+> it's just a simple `Filter` for Catching the Errors
 
 ## Features
 
@@ -67,12 +67,12 @@ quote: boolean; // for displaying  very good quotes
  copy `/src/themes/error.default.mustache` and play
  
  ## TODO 
- - [ ] Write Tests
+- [ ] Write Tests
 - [ ] list syntax required
 
  ## Contributing
 
-you are welcome with this project for contributing,
+You are welcome with this project for contributing,
 If you have new themes just make a new PR with and simple image for the theme
 
 ## Global filters 
