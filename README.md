@@ -1,9 +1,9 @@
 <p align="center"><img src="https://avatars1.githubusercontent.com/u/41109786?s=200&v=4"/></p>
 <p align="center">
-    <a href="https://travis-ci.org/nestjs-community/nestjs-flub"><img src="https://travis-ci.org/nestjs-community/nestjs-flub.svg?branch=master"/></a>
+    <a href="https://travis-ci.org/nestjsx/nestjs-flub"><img src="https://travis-ci.org/nestjsx/nestjs-flub.svg?branch=master"/></a>
     <a href="https://www.npmjs.com/package/nestjs-flub"><img src="https://img.shields.io/npm/v/nestjs-flub.svg"/></a>
-    <a href="https://github.com/nestjs-community/nestjs-flub/blob/master/LICENSE"><img src="https://img.shields.io/github/license/nestjs-community/nestjs-flub.svg"/></a>
-    <a href='https://coveralls.io/github/nestjs-community/nestjs-flub?branch=master'><img src='https://coveralls.io/repos/github/nestjs-community/nestjs-flub/badge.svg?branch=master' alt='Coverage Status' /></a>
+    <a href="https://github.com/nestjsx/nestjs-flub/blob/master/LICENSE"><img src="https://img.shields.io/github/license/nestjsx/nestjs-flub.svg"/></a>
+    <a href='https://coveralls.io/github/nestjsx/nestjs-flub?branch=master'><img src='https://coveralls.io/repos/github/nestjsx/nestjs-flub/badge.svg?branch=master' alt='Coverage Status' /></a>
     <a href="https://greenkeeper.io/"><img src="https://badges.greenkeeper.io/shekohex/nestjs-flub.svg"/></a>
 </p>
 <h1 align="center">Nestjs Flub</h1>
