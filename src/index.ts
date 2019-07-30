@@ -1,2 +1,2 @@
-export * from 'error-handler';
-export * from 'flub-error-handler';
+export * from './error-handler';
+export * from './flub-error-handler';
