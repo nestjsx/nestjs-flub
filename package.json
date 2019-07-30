@@ -2,7 +2,7 @@
   "name": "nestjs-flub",
   "version": "0.1.0",
   "description": "Pretty Error Stack Viewer for NestJS Framework",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "release": "standard-version",
     "clean": "rm -rf dist",
