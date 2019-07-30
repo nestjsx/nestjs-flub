@@ -6,16 +6,13 @@ import * as Mustache from 'mustache';
 import * as path from 'path';
 
 export class ErrorHandler {
-  private VIEW_PATH: string = './themes/error.default.mustache';
-  private viewTemplate = fs.readFileSync(
-    path.join(__dirname, this.VIEW_PATH),
-    'utf-8',
-  );
   private error: Error;
+  private options: FlubOptions;
   private readonly errorParser: ErrorParser;
 
   constructor(error: Error, options: FlubOptions = new DefaultFlubOptions()) {
     this.error = error;
+    this.options = options;
     this.errorParser = new ErrorParser(error, options);
   }
 
@@ -54,8 +51,14 @@ export class ErrorHandler {
             serializedFrame.classes = this.getDisplayClasses(frame, index);
             return serializedFrame;
           });
-
-          resolve(this.complieView(this.viewTemplate, data));
+          const viewTemplate = fs.readFileSync(
+            path.join(
+              __dirname,
+              `./themes/error.${this.options.theme || 'default'}.mustache`,
+            ),
+            'utf-8',
+          );
+          resolve(this.complieView(viewTemplate, data));
         })
         .catch(reject);
     });

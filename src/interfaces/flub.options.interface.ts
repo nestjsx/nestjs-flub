@@ -1,4 +1,4 @@
 export interface FlubOptions {
-  theme: string;
-  quote: boolean;
+  theme?: string;
+  quote?: boolean;
 }
