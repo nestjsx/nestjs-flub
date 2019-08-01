@@ -17,15 +17,5 @@
     "outDir": "./dist",
     "lib": ["es2017"]
   },
-  "include": [
-    "*.ts",
-    "**/*.ts"
-  ],
-  "exclude": [
-    "./index.ts",
-    "./index.d.ts",
-    "node_modules",
-    "./**/*.spec.ts",
-    "examples"
-  ]
+  "exclude": ["**/node_modules", "**/*-spec.ts", "**/*.spec.ts", "examples"]
 }
