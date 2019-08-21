@@ -51,8 +51,8 @@ export class CatsController {
 ```
 
 ## Configuration 
- **FlubErrorHandler** accepts an object as an options to configure the Error Handler </br>
- for now it only have to Options
+ **FlubErrorHandler** accepts an object as an option to configure the Error Handler </br>
+ for now it only have two Options
  ```typescript
 theme: string; // for themes ['dark', 'light', 'default']
 quote: boolean; // for displaying  very good quotes
