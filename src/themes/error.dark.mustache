@@ -247,7 +247,7 @@ pre[class*="language-"] {
     .line-numbers .line-numbers-rows {
       position: absolute;
       pointer-events: none;
-      top: 0;
+      top: -5px;
       font-size: 100%;
       left: -3.8em;
       width: 3em; /* works for line-numbers below 1000 lines */
@@ -687,11 +687,7 @@ pre[class*="language-"] {
                   data-line="{{line}}"
                   data-file="Open File: {{file}}"
                   data-method="{{method}}:"
-                  data-line-column="{{line}}:{{column}}">
-                   {{ context.pre }}
-                   {{ context.line }}
-                   {{ context.post }}
-                </div>
+                  data-line-column="{{line}}:{{column}}">{{ context.pre }}&#10;{{ context.line }}&#10;{{ context.post }}</div>
               </div>
             {{/frames}}
           </div>
