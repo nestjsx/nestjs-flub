@@ -1,22 +1,61 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { StackTraceInterface, FrameInterface } from './../interfaces';
+import { StackTraceInterface, FrameInterface, Context } from './../interfaces';
 import { Logger } from '@nestjs/common';
+import { SourceMapConsumer } from 'source-map';
 
 export class FrameParser {
   public static codeContext: number = 7;
+
+  /**
+   * Returns the `StackTrace`
+   *
+   */
+  public static resolveSourceMap(
+    frame: StackTraceInterface
+  ): Promise<StackTraceInterface> {
+    return new Promise((resolve, reject) => {
+      fs.readFile(`${frame.getFileName()}.map`, 'utf-8', async (error, contents) => {
+        if (error) {
+          return resolve(frame);
+        }
+        const consumer = await new SourceMapConsumer(contents);
+        const originalSourceData = consumer.originalPositionFor({
+          line: frame.getLineNumber(),
+          column: frame.getColumnNumber(),
+        });
+        const stackTrace = new class implements StackTraceInterface {
+          context: Context;
+          get(belowFn?: any) { return frame.get(belowFn) }
+          parse(err) { return frame.parse(err) }
+          getTypeName() { return frame.getTypeName() }
+          getFunctionName() { return frame.getFunctionName() }
+          getMethodName() { return frame.getMethodName() }
+          getFileName() { return originalSourceData.source.substring(1) }
+          getLineNumber() { return originalSourceData.line }
+          getColumnNumber() { return originalSourceData.column }
+          isNative() { return frame.isNative() }
+        };
+
+        stackTrace.context = await this.readCodeFrame(stackTrace);
+
+        return resolve(stackTrace);
+      });
+    });
+  }
 
   /**
    * Returns the source code for a given file. If unable to
    * read file it log a warn and resolves the promise with a null.
    *
    * @param  {Object} frame
+   * @param  {boolean} resolveSourceMap
    * @return {Promise} null || Object
    */
   public static async readCodeFrame(
-    frame: StackTraceInterface,
-  ): Promise<object> {
-    return new Promise((resolve, reject) => {
+    frame: StackTraceInterface
+  ): Promise<{ pre: any, post: any, line: any }> {
+    return new Promise(async (resolve, reject) => {
       fs.readFile(frame.getFileName(), 'utf-8', (error, contents) => {
         if (error) {
           Logger.warn(
@@ -47,7 +86,9 @@ export class FrameParser {
    *
    * @return {Object}
    */
-  public static serializeCodeFrame(frame: StackTraceInterface): FrameInterface {
+  public static async serializeCodeFrame(
+    frame: StackTraceInterface
+  ): Promise<FrameInterface> {
     let relativeFileName = frame.getFileName().indexOf(process.cwd());
     if (relativeFileName > -1) {
       relativeFileName = frame
@@ -67,6 +108,7 @@ export class FrameParser {
       method: frame.getFunctionName(),
     };
   }
+
   /**
    * Serializes frame to a usable as an error object.
    *

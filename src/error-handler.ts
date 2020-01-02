@@ -25,9 +25,9 @@ export class ErrorHandler {
     return new Promise((resolve, reject) => {
       this.errorParser
         .parse()
-        .then(stack => {
+        .then(async stack => {
           resolve({
-            error: this.errorParser.serialize(stack),
+            error: await this.errorParser.serialize(stack),
           });
         })
         .catch(reject);
@@ -45,9 +45,9 @@ export class ErrorHandler {
     return new Promise((resolve, reject) => {
       this.errorParser
         .parse()
-        .then(stack => {
-          const data = this.errorParser.serialize(stack, (frame, index) => {
-            const serializedFrame = FrameParser.serializeCodeFrame(frame);
+        .then(async stack => {
+          const data = await this.errorParser.serialize(stack, async (frame, index) => {
+            const serializedFrame = await FrameParser.serializeCodeFrame(frame);
             serializedFrame.classes = this.getDisplayClasses(frame, index);
             return serializedFrame;
           });
