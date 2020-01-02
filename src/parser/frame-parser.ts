@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
 import { SourceMapConsumer } from 'source-map';
-import { FrameInterface, StackTraceInterface} from './../interfaces';
+import { FrameInterface, StackTraceInterface } from './../interfaces';
 import { SyntheticStackTrace } from './synthetic-stack-trace';
 
 export class FrameParser {
@@ -16,20 +16,24 @@ export class FrameParser {
     frame: StackTraceInterface,
   ): Promise<StackTraceInterface> {
     return new Promise((resolve, reject) => {
-      fs.readFile(`${frame.getFileName()}.map`, 'utf-8', async (error, contents) => {
-        if (error) {
-          return resolve(frame);
-        }
-        const consumer = await new SourceMapConsumer(contents);
-        const originalSourceData = consumer.originalPositionFor({
-          column: frame.getColumnNumber(),
-          line: frame.getLineNumber(),
-        });
-        const stackTrace = new SyntheticStackTrace(frame, originalSourceData);
-        stackTrace.context = await this.readCodeFrame(stackTrace);
+      fs.readFile(
+        `${frame.getFileName()}.map`,
+        'utf-8',
+        async (error, contents) => {
+          if (error) {
+            return resolve(frame);
+          }
+          const consumer = await new SourceMapConsumer(contents);
+          const originalSourceData = consumer.originalPositionFor({
+            column: frame.getColumnNumber(),
+            line: frame.getLineNumber(),
+          });
+          const stackTrace = new SyntheticStackTrace(frame, originalSourceData);
+          stackTrace.context = await this.readCodeFrame(stackTrace);
 
-        return resolve(stackTrace);
-      });
+          return resolve(stackTrace);
+        },
+      );
     });
   }
 
@@ -42,7 +46,7 @@ export class FrameParser {
    */
   public static async readCodeFrame(
     frame: StackTraceInterface,
-  ): Promise<{ pre: any, post: any, line: any }> {
+  ): Promise<{ pre: any; post: any; line: any }> {
     return new Promise(async (resolve, reject) => {
       fs.readFile(frame.getFileName(), 'utf-8', (error, contents) => {
         if (error) {

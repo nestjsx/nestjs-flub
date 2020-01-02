@@ -14,13 +14,13 @@ export class FlubErrorHandler implements ExceptionFilter {
   catch(exception: Error, host: ArgumentsHost) {
     new ErrorHandler(exception, this.options)
       .toHTML()
-      .then((data) => {
+      .then(data => {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
 
         response.status(500).send(data);
       })
-      .catch((e) => {
+      .catch(e => {
         Logger.error(e.message, e.context);
       });
   }

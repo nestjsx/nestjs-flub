@@ -25,7 +25,7 @@ export class ErrorHandler {
     return new Promise((resolve, reject) => {
       this.errorParser
         .parse()
-        .then(async (stack) => {
+        .then(async stack => {
           resolve({
             error: await this.errorParser.serialize(stack),
           });
@@ -45,12 +45,17 @@ export class ErrorHandler {
     return new Promise((resolve, reject) => {
       this.errorParser
         .parse()
-        .then(async (stack) => {
-          const data = await this.errorParser.serialize(stack, async (frame, index) => {
-            const serializedFrame = await FrameParser.serializeCodeFrame(frame);
-            serializedFrame.classes = this.getDisplayClasses(frame, index);
-            return serializedFrame;
-          });
+        .then(async stack => {
+          const data = await this.errorParser.serialize(
+            stack,
+            async (frame, index) => {
+              const serializedFrame = await FrameParser.serializeCodeFrame(
+                frame,
+              );
+              serializedFrame.classes = this.getDisplayClasses(frame, index);
+              return serializedFrame;
+            },
+          );
           const viewTemplate = fs.readFileSync(
             path.join(
               __dirname,
