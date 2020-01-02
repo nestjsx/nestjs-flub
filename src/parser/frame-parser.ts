@@ -38,7 +38,6 @@ export class FrameParser {
    * read file it log a warn and resolves the promise with a null.
    *
    * @param  {Object} frame
-   * @param  {boolean} resolveSourceMap
    * @return {Promise} null || Object
    */
   public static async readCodeFrame(

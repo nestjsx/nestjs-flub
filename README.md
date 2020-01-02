@@ -56,6 +56,7 @@ export class CatsController {
  ```typescript
 theme: string; // for themes ['dark', 'light', 'default']
 quote: boolean; // for displaying  very good quotes
+souremap: boolean; // for resolving sourcemap positions
  ```
  example
  
