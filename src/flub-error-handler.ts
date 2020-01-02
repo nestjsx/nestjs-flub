@@ -1,7 +1,7 @@
-import { Catch, ExceptionFilter, ArgumentsHost } from '@nestjs/common';
+import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
+import { Logger } from '@nestjs/common';
 import { ErrorHandler } from './error-handler';
 import { FlubOptions } from './interfaces';
-import { Logger } from '@nestjs/common';
 
 @Catch(Error)
 export class FlubErrorHandler implements ExceptionFilter {
@@ -14,13 +14,13 @@ export class FlubErrorHandler implements ExceptionFilter {
   catch(exception: Error, host: ArgumentsHost) {
     new ErrorHandler(exception, this.options)
       .toHTML()
-      .then(data => {
+      .then((data) => {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
 
         response.status(500).send(data);
       })
-      .catch(e => {
+      .catch((e) => {
         Logger.error(e.message, e.context);
       });
   }

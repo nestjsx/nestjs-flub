@@ -1,5 +1,5 @@
-import { FlubOptions } from '../interfaces';
 import * as stackTrace from 'stack-trace';
+import { FlubOptions } from '../interfaces';
 import quotes from './../quotes';
 import { FrameParser } from './frame-parser';
 
@@ -29,10 +29,10 @@ export class ErrorParser {
     let frames = [];
     if (stack instanceof Array) {
       if (this.resolveSourceMap) {
-        const resolvedStack = await Promise.all(stack.map(async frame => await FrameParser.resolveSourceMap(frame)));
-        frames = await Promise.all(resolvedStack.filter(frame => frame.getFileName()).map(callback));
+        const resolvedStack = await Promise.all(stack.map(async (frame) => await FrameParser.resolveSourceMap(frame)));
+        frames = await Promise.all(resolvedStack.filter((frame) => frame.getFileName()).map(callback));
       } else {
-        frames = await Promise.all(stack.filter(frame => frame.getFileName()).map(callback));
+        frames = await Promise.all(stack.filter((frame) => frame.getFileName()).map(callback));
       }
     }
     return {
@@ -40,7 +40,7 @@ export class ErrorParser {
       message: this.error.message,
       name: this.error.name,
       quote: this.viewQuote ? this.randomQuote() : undefined,
-      //status: this.error.status, //TODO what's status for?
+      // status: this.error.status, //TODO what's status for?
     };
   }
 
@@ -54,12 +54,12 @@ export class ErrorParser {
     return new Promise((resolve, reject) => {
       const stack = stackTrace.parse(this.error);
       Promise.all(
-        stack.map(async frame => {
+        stack.map(async (frame) => {
           if (FrameParser.isNode(frame)) {
             return Promise.resolve(frame);
           }
-          const resolvedFrame = this.resolveSourceMap ? await FrameParser.resolveSourceMap(frame): frame;
-          return FrameParser.readCodeFrame(resolvedFrame).then(context => {
+          const resolvedFrame = this.resolveSourceMap ? await FrameParser.resolveSourceMap(frame) : frame;
+          return FrameParser.readCodeFrame(resolvedFrame).then((context) => {
             resolvedFrame.context = context;
             return resolvedFrame;
           });
