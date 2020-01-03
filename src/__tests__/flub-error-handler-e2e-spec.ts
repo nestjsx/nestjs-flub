@@ -58,7 +58,9 @@ describe('FlubErrorHandler', () => {
 });
 
 afterAll(async () => {
-  await app.close();
+  if (app) {
+    await app.close();
+  }
   fs.unlink(
     '/Users/mtolmacs/Projects/nestjs-flub/src/__tests__/flub-error-handler-e2e-spec.ts.map',
     err => {
