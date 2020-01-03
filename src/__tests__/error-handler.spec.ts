@@ -21,7 +21,7 @@ describe('ErrorHandler', () => {
     const errorHandler = new ErrorHandler(new Error('hello, another error'), {
       theme: 'dark',
       quote: false,
-      sourcemap: true,
+      sourcemap: false,
     });
 
     const result: any = await errorHandler.toJSON();
@@ -34,6 +34,7 @@ describe('ErrorHandler', () => {
     const errorHandler = new ErrorHandler(new Error('hello, error here'), {
       theme: 'dark',
       quote: false,
+      sourcemap: true,
     });
 
     const html = await errorHandler.toHTML();

@@ -26,7 +26,8 @@ export class SyntheticStackTrace implements StackTraceInterface {
     return this.frame.getMethodName();
   }
   getFileName() {
-    return this.originalSourceData.source.substring(1);
+    const source = this.originalSourceData.source;
+    return source ? source.substring(1) : '<unknown>';
   }
   getLineNumber() {
     return this.originalSourceData.line;
