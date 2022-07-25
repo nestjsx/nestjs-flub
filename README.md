@@ -35,7 +35,7 @@ npm install nestjs-flub --save
 ```
 
 ## Simple Usage
-Just add this filter as you used to add any filters
+Just add this filter as you would any filter:
 ```typescript
 import { FlubErrorHandler } from 'nestjs-flub';
 @Controller('cats')
@@ -51,8 +51,7 @@ export class CatsController {
 ```
 
 ## Configuration 
- **FlubErrorHandler** accepts an object as an option to configure the Error Handler </br>
- for now it only have two Options
+ **FlubErrorHandler** accepts an optional object to configure the Error Handler. For now, it only has two Options:
  ```typescript
 theme: string; // for themes ['dark', 'light', 'default']
 quote: boolean; // for displaying  very good quotes
@@ -72,8 +71,7 @@ quote: boolean; // for displaying  very good quotes
 
  ## Contributing
 
-You are welcome with this project for contributing,
-If you have new themes just make a new PR with and simple image for the theme
+You are welcome to contribute to this project. If you want to add new themes, make a new PR containing the theme and a simple image to represent it
 
 ## Global filters 
 
