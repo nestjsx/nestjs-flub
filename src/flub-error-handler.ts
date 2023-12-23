@@ -17,7 +17,8 @@ export class FlubErrorHandler implements ExceptionFilter {
       .then(data => {
         const ctx = host.switchToHttp();
         const response = ctx.getResponse();
-
+        
+        response.header('Content-Type', 'text/html; charset=UTF-8');
         response.status(500).send(data);
       })
       .catch(e => {
