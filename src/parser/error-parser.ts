@@ -1,15 +1,17 @@
-import { FlubOptions } from '../interfaces';
 import * as stackTrace from 'stack-trace';
+import { FlubOptions } from '../interfaces';
 import quotes from './../quotes';
 import { FrameParser } from './frame-parser';
 
 export class ErrorParser {
   public viewQuote: boolean = true;
+  public resolveSourceMap: boolean = false;
   private readonly error: Error;
 
   constructor(error: Error, options: FlubOptions) {
     this.error = error;
     this.viewQuote = options.quote;
+    this.resolveSourceMap = options.sourcemap;
   }
 
   /**
@@ -22,18 +24,29 @@ export class ErrorParser {
    *
    * @return {Object}
    */
-  public serialize(stack: object, callback?): object {
+  public async serialize(stack: object, callback?): Promise<object> {
     callback = callback || FrameParser.serializeCodeFrame.bind(this);
     let frames = [];
     if (stack instanceof Array) {
-      frames = stack.filter(frame => frame.getFileName()).map(callback);
+      if (this.resolveSourceMap) {
+        const resolvedStack = await Promise.all(
+          stack.map(async frame => await FrameParser.resolveSourceMap(frame)),
+        );
+        frames = await Promise.all(
+          resolvedStack.filter(frame => frame.getFileName()).map(callback),
+        );
+      } else {
+        frames = await Promise.all(
+          stack.filter(frame => frame.getFileName()).map(callback),
+        );
+      }
     }
     return {
       frames,
       message: this.error.message,
       name: this.error.name,
       quote: this.viewQuote ? this.randomQuote() : undefined,
-      //status: this.error.status, //TODO what's status for?
+      // status: this.error.status, //TODO what's status for?
     };
   }
 
@@ -47,13 +60,16 @@ export class ErrorParser {
     return new Promise((resolve, reject) => {
       const stack = stackTrace.parse(this.error);
       Promise.all(
-        stack.map(frame => {
+        stack.map(async frame => {
           if (FrameParser.isNode(frame)) {
             return Promise.resolve(frame);
           }
-          return FrameParser.readCodeFrame(frame).then(context => {
-            frame.context = context;
-            return frame;
+          const resolvedFrame = this.resolveSourceMap
+            ? await FrameParser.resolveSourceMap(frame)
+            : frame;
+          return FrameParser.readCodeFrame(resolvedFrame).then(context => {
+            resolvedFrame.context = context;
+            return resolvedFrame;
           });
         }),
       )
