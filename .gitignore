@@ -6,7 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 
 #IDE
-.vscode
 .idea
 # Runtime data
 pids
@@ -61,3 +60,7 @@ typings/
 .env
 
 dist/
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat
+.gitignore
