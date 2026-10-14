@@ -1,10 +1,41 @@
+import { Logger } from '@nestjs/common';
 import * as fs from 'fs';
 import * as path from 'path';
-import { StackTraceInterface, FrameInterface } from './../interfaces';
-import { Logger } from '@nestjs/common';
+import { SourceMapConsumer } from 'source-map';
+import { FrameInterface, StackTraceInterface } from './../interfaces';
+import { SyntheticStackTrace } from './synthetic-stack-trace';
 
 export class FrameParser {
   public static codeContext: number = 7;
+
+  /**
+   * Returns the `StackTrace`
+   *
+   */
+  public static resolveSourceMap(
+    frame: StackTraceInterface,
+  ): Promise<StackTraceInterface> {
+    return new Promise((resolve, reject) => {
+      fs.readFile(
+        `${frame.getFileName()}.map`,
+        'utf-8',
+        async (error, contents) => {
+          if (error) {
+            return resolve(frame);
+          }
+          const consumer = await new SourceMapConsumer(contents);
+          const originalSourceData = consumer.originalPositionFor({
+            column: frame.getColumnNumber(),
+            line: frame.getLineNumber(),
+          });
+          const stackTrace = new SyntheticStackTrace(frame, originalSourceData);
+          stackTrace.context = await this.readCodeFrame(stackTrace);
+
+          return resolve(stackTrace);
+        },
+      );
+    });
+  }
 
   /**
    * Returns the source code for a given file. If unable to
@@ -15,8 +46,8 @@ export class FrameParser {
    */
   public static async readCodeFrame(
     frame: StackTraceInterface,
-  ): Promise<object> {
-    return new Promise((resolve, reject) => {
+  ): Promise<{ pre: any; post: any; line: any }> {
+    return new Promise(async (resolve, reject) => {
       fs.readFile(frame.getFileName(), 'utf-8', (error, contents) => {
         if (error) {
           Logger.warn(
@@ -47,7 +78,9 @@ export class FrameParser {
    *
    * @return {Object}
    */
-  public static serializeCodeFrame(frame: StackTraceInterface): FrameInterface {
+  public static async serializeCodeFrame(
+    frame: StackTraceInterface,
+  ): Promise<FrameInterface> {
     let relativeFileName = frame.getFileName().indexOf(process.cwd());
     if (relativeFileName > -1) {
       relativeFileName = frame
@@ -67,6 +100,7 @@ export class FrameParser {
       method: frame.getFunctionName(),
     };
   }
+
   /**
    * Serializes frame to a usable as an error object.
    *

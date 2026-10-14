@@ -1,9 +1,9 @@
-import { ErrorParser, FrameParser } from './parser';
-import { DefaultFlubOptions } from './default-flub-options';
-import { FlubOptions } from './interfaces';
 import * as fs from 'fs';
 import * as Mustache from 'mustache';
 import * as path from 'path';
+import { DefaultFlubOptions } from './default-flub-options';
+import { FlubOptions } from './interfaces';
+import { ErrorParser, FrameParser } from './parser';
 
 export class ErrorHandler {
   private error: Error;
@@ -25,9 +25,9 @@ export class ErrorHandler {
     return new Promise((resolve, reject) => {
       this.errorParser
         .parse()
-        .then(stack => {
+        .then(async stack => {
           resolve({
-            error: this.errorParser.serialize(stack),
+            error: await this.errorParser.serialize(stack),
           });
         })
         .catch(reject);
@@ -45,12 +45,17 @@ export class ErrorHandler {
     return new Promise((resolve, reject) => {
       this.errorParser
         .parse()
-        .then(stack => {
-          const data = this.errorParser.serialize(stack, (frame, index) => {
-            const serializedFrame = FrameParser.serializeCodeFrame(frame);
-            serializedFrame.classes = this.getDisplayClasses(frame, index);
-            return serializedFrame;
-          });
+        .then(async stack => {
+          const data = await this.errorParser.serialize(
+            stack,
+            async (frame, index) => {
+              const serializedFrame = await FrameParser.serializeCodeFrame(
+                frame,
+              );
+              serializedFrame.classes = this.getDisplayClasses(frame, index);
+              return serializedFrame;
+            },
+          );
           const viewTemplate = fs.readFileSync(
             path.join(
               __dirname,
